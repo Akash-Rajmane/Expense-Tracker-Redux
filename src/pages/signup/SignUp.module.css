@@ -1,0 +1,15 @@
+.btn{
+    background-color: lightgreen;
+    border: 1px solid green;
+    width: 27rem;
+    padding: 0.5rem 2.5rem;
+    height: 40px;
+    font-size: 18px;
+    color: green;
+    border-radius: 6px;
+}
+
+.btn:hover{
+    background-color: green;
+    color: lightgreen;
+}
