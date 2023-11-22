@@ -16,6 +16,7 @@
 
 .control {
     margin-bottom: 0.5rem;
+    position: relative;
 }
 
 .control label {
@@ -57,4 +58,12 @@
 .actions button:hover {
     background-color: #873abb;
     border-color: #873abb;
+}
+
+.img{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 1rem;
+    top: 32px;
 }

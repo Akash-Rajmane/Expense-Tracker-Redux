@@ -1,10 +1,13 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import classes from "./SignUpForm.module.css";
+import showImage from "../../assets/show.png";
+import hideImage from "../../assets/hide.png";
 
 const SignUpForm = () => {
     const emailRef = useRef();
     const confirmEmailRef = useRef();
     const passwordRef = useRef();
+    const [showPassword, setShowPassword] = useState(false);
     
     const submitHandler = (e) => {
         e.preventDefault();
@@ -58,12 +61,13 @@ const SignUpForm = () => {
         <div className={classes.control}>
           <label htmlFor='password'>Your Password</label>
           <input
-            type='password'
+            type={showPassword?'text':'password'}
             id='password'
             required
             ref={passwordRef}
             minLength={7}
           />
+          <img src={showPassword?showImage:hideImage} alt={"eye"} onClick={()=>setShowPassword(prev=>!prev)} className={classes.img}/>
         </div>
         <div className={classes.actions}>
           <button type="submit" >Sign Up</button>
