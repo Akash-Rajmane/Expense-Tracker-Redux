@@ -1,25 +1,20 @@
 import React, {useRef, useState} from 'react';
-import classes from "./SignUpForm.module.css";
+import classes from "./LoginForm.module.css";
 import showImage from "../../assets/show.png";
 import hideImage from "../../assets/hide.png";
+import { Link } from 'react-router-dom';
 
-const SignUpForm = () => {
+const LoginForm = () => {
     const emailRef = useRef();
-    const confirmEmailRef = useRef();
     const passwordRef = useRef();
     const [showPassword, setShowPassword] = useState(false);
     
     const submitHandler = (e) => {
         e.preventDefault();
         let email = emailRef.current.value;
-        let confirmEmail = confirmEmailRef.current.value;
         let password = passwordRef.current.value;
-        if(email!==confirmEmail){
-            alert("Emails don't match, enter again");
-            return;
-        }
         
-        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_KEY}`,
+        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_KEY}`,
         {
             method: "POST",
             body: JSON.stringify({
@@ -34,9 +29,8 @@ const SignUpForm = () => {
             if(res.ok){
               console.log(res);
               emailRef.current.value = "";
-              confirmEmailRef.current.value = "";
               passwordRef.current.value = "";
-              alert("Signed up successfully");
+              alert("Logged in successfully");
             }else{
                 return res.json()
                         .then((data)=>{
@@ -44,19 +38,16 @@ const SignUpForm = () => {
                         })
             }
         })
-    
+      
+
     }  
 
     return (
     <form onSubmit={submitHandler} className={classes.form}>
-        <h1>Sign Up</h1>
+        <h1>Login</h1>
         <div className={classes.control}>
           <label htmlFor='email'>Your Email</label>
           <input type='email' id='email' required ref={emailRef}/>
-        </div>
-        <div className={classes.control}>
-          <label htmlFor='confirmEmail'>Confirm Email</label>
-          <input type='email' id='confirmEmail' required ref={confirmEmailRef}/>
         </div>
         <div className={classes.control}>
           <label htmlFor='password'>Your Password</label>
@@ -69,11 +60,16 @@ const SignUpForm = () => {
           />
           <img src={showPassword?showImage:hideImage} alt={"eye"} onClick={()=>setShowPassword(prev=>!prev)} className={classes.img}/>
         </div>
+        
         <div className={classes.actions}>
-          <button type="submit" >Sign Up</button>
+          <button type="submit" >Login</button>
         </div>
+        <div className={classes.actions}>
+            <Link to="/reset" className={classes.text}>Forgot Password</Link>
+        </div>
+        
     </form>
   )
 }
 
-export default SignUpForm;
+export default LoginForm;
