@@ -9,14 +9,18 @@ import { useState } from 'react';
 function App() {
   let initialState = localStorage.getItem("profileComplete");
   const [isProfileComplete, setIsProfileComplete] = useState(initialState?JSON.parse(initialState):false);
-  console.log(initialState, isProfileComplete);
+  
+  
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home isProfileComplete={isProfileComplete}/>}/>
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile setIsProfileComplete={setIsProfileComplete} isProfileComplete={isProfileComplete}/>}/>
+        <Route path="/profile" element={<Profile 
+          setIsProfileComplete={setIsProfileComplete}
+          isProfileComplete={isProfileComplete}
+        />}/>
       </Routes>
     </Router>
   );

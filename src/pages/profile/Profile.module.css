@@ -74,3 +74,21 @@
     background-color: #b64219;
     border: 1px solid #b64219;
 }
+
+.verifyBtn{
+    cursor: pointer;
+    font: inherit;
+    color: white;
+    background-color: #4ed137;
+    border: 1px solid #4ed137;
+    border-radius: 20px;
+    width: 180px;
+    padding: 0.5rem 2.5rem;
+    display: block;
+    margin: auto;
+}
+
+.verifyBtn:hover{
+    background-color: #32b01c;
+    border: 1px solid #32b01c;
+}
