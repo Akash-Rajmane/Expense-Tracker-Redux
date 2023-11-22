@@ -11,10 +11,10 @@ const Login = () => {
     }
 
   return (
-    <>
+    <div className={classes.container}>
         <LoginForm/>
         <button className={classes.btn} onClick={redirectHandler}>Don't have an account? Sign up</button>
-    </>
+    </div>
   )
 }
 

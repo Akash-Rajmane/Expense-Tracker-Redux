@@ -5,23 +5,27 @@ import Home from './pages/home/Home';
 import Profile from "./pages/profile/Profile";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { useState } from 'react';
+import Header from './components/header/Header';
 
 function App() {
   let initialState = localStorage.getItem("profileComplete");
   const [isProfileComplete, setIsProfileComplete] = useState(initialState?JSON.parse(initialState):false);
-  
+
   
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home isProfileComplete={isProfileComplete}/>}/>
-        <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile 
-          setIsProfileComplete={setIsProfileComplete}
-          isProfileComplete={isProfileComplete}
-        />}/>
-      </Routes>
+      <Header isProfileComplete={isProfileComplete}/>
+      <main className='main'>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/profile" element={<Profile 
+            setIsProfileComplete={setIsProfileComplete}
+            isProfileComplete={isProfileComplete}
+          />}/>
+        </Routes>
+      </main>
     </Router>
   );
 }

@@ -1,0 +1,35 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #38015c;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.link{
+    margin-right: 60px;
+    background-color: #fefed3;
+    color: #000;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.link a{
+    text-decoration: none;
+}
+
+.logoutBtn{
+    margin-right: 60px;
+    background-color: #da1a1a;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    padding: 0.25rem 0.5rem;
+}

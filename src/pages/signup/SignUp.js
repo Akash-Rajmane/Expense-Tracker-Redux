@@ -11,10 +11,10 @@ const SignUp = () => {
   }
 
   return (
-    <>
+    <div className={classes.container}>
         <SignUpForm/>
         <button className={classes.btn} onClick={redirectHandler}>Have an account? Login</button>
-    </>
+    </div>
   )
 }
 
