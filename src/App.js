@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Home isProfileComplete={isProfileComplete}/>}/>
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile setIsProfileComplete={setIsProfileComplete}/>}/>
+        <Route path="/profile" element={<Profile setIsProfileComplete={setIsProfileComplete} isProfileComplete={isProfileComplete}/>}/>
       </Routes>
     </Router>
   );
