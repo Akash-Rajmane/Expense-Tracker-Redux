@@ -2,9 +2,10 @@ import React, {useRef, useState} from 'react';
 import classes from "./LoginForm.module.css";
 import showImage from "../../assets/show.png";
 import hideImage from "../../assets/hide.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
     const [showPassword, setShowPassword] = useState(false);
@@ -27,10 +28,12 @@ const LoginForm = () => {
             }
         }).then(res=>{
             if(res.ok){
-              console.log(res);
-              emailRef.current.value = "";
-              passwordRef.current.value = "";
-              alert("Logged in successfully");
+              return res.json().then(data=>{
+                emailRef.current.value = "";
+                passwordRef.current.value = "";
+                localStorage.setItem("token",JSON.stringify(data.idToken));
+                navigate("/");
+              })
             }else{
                 return res.json()
                         .then((data)=>{
@@ -39,7 +42,6 @@ const LoginForm = () => {
             }
         })
       
-
     }  
 
     return (

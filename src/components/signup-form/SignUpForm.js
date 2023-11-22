@@ -2,8 +2,10 @@ import React, {useRef, useState} from 'react';
 import classes from "./SignUpForm.module.css";
 import showImage from "../../assets/show.png";
 import hideImage from "../../assets/hide.png";
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
     const emailRef = useRef();
     const confirmEmailRef = useRef();
     const passwordRef = useRef();
@@ -36,7 +38,7 @@ const SignUpForm = () => {
               emailRef.current.value = "";
               confirmEmailRef.current.value = "";
               passwordRef.current.value = "";
-              alert("Signed up successfully");
+              navigate("/login");
             }else{
                 return res.json()
                         .then((data)=>{
