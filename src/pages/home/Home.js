@@ -7,7 +7,7 @@ const Home = ({setExpenses,expenses}) => {
   return (
     <>
      <AddExpense setExpenses={setExpenses}/>
-     <List expenses={expenses}/>
+     <List expenses={expenses} setExpenses={setExpenses}/>
     </>
   )
 }

@@ -6,6 +6,7 @@ import Profile from "./pages/profile/Profile";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Header from './components/header/Header';
+import EditExpense from './pages/edit-expense/EditExpense';
 
 function App() {
   let initialState = localStorage.getItem("profileComplete");
@@ -20,7 +21,11 @@ function App() {
         result = await response.json();
         let arr = [];
         for(let key in result){
-          arr.push(result[key]);
+          let expense = {
+            key,
+            ...result[key],
+          }
+          arr.push(expense);
         }
         setExpenses(arr);
       }else{
@@ -44,6 +49,7 @@ function App() {
           <Route path="/" element={<Home setExpenses={setExpenses} expenses={expenses} />}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/edit/:key" element={<EditExpense expenses={expenses} setExpenses={setExpenses}/>} />
           <Route path="/profile" element={<Profile 
             setIsProfileComplete={setIsProfileComplete}
             isProfileComplete={isProfileComplete}
