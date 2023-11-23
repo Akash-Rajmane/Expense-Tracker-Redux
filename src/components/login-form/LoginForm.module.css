@@ -68,6 +68,7 @@
     top: 32px;
 }
 
-.actions a{
+.text{
     color:#fff;
+    text-decoration: underline;
 }

@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import classes from "./LoginForm.module.css";
 import showImage from "../../assets/show.png";
 import hideImage from "../../assets/hide.png";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -42,7 +42,39 @@ const LoginForm = () => {
             }
         })
       
-    }  
+    } 
+    
+    const resetPasswordHandler = async () => {
+      let email = emailRef.current.value;
+      if(email==="" || !email.includes("@") || !email.includes(".com")){
+        alert("Please enter valid email address");
+        return;
+      }
+      try{
+        const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.REACT_APP_KEY}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+              email,
+              requestType: "PASSWORD_RESET"
+          }),
+          headers: {
+              "Content-Type":"application/json"
+          }
+        });
+        let result;
+        if(response.ok){
+          result = await response.json();
+          console.log(result);
+          alert("Link to reset your password is sent to your mail");
+        }else{
+          result = await response.json();
+          throw new Error(result.error.message);
+        }
+      }catch(err){
+        console.log(err);
+      }
+    } 
 
     return (
     <form onSubmit={submitHandler} className={classes.form}>
@@ -67,7 +99,7 @@ const LoginForm = () => {
           <button type="submit" >Login</button>
         </div>
         <div className={classes.actions}>
-            <Link to="/reset" className={classes.text}>Forgot Password</Link>
+            <span className={classes.text} onClick={resetPasswordHandler}>Forgot Password</span>
         </div>
         
     </form>
