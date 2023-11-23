@@ -18,24 +18,46 @@ const AddExpense = ({setExpenses}) => {
         setSelectedCategory(e.target.value);
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        
-        setExpenses(expenses=>{
-            return [
-                ...expenses,
-                {   
-                    id: new Date().toString(),
-                    amount: amount,
-                    description: description,
-                    category: selectedCategory
+
+        let newExpense =  {   
+            id: new Date().toString(),
+            amount: amount,
+            description: description,
+            category: selectedCategory
+        }   
+    
+        try{
+            let response = await fetch("https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses.json",{
+                method: "POST",
+                body: JSON.stringify(newExpense),
+                headers:{
+                    "Content-Type":"application/json"
                 }
-            ]
-        });
+            })
+
+            let result;
+            if(response.ok){
+                result = await response.json();
+                setExpenses(expenses=>{
+                    return [
+                        ...expenses,
+                        newExpense
+                    ]
+                });
+                console.log(result);
+                setAmount("");
+                setDescription("");
+                setSelectedCategory("fuel");
+            }else{
+                result = await response.json();
+                throw new Error(result.error);
+            }
+        }catch(err){
+            console.log(err);
+        }
        
-        setAmount("");
-        setDescription("");
-        setSelectedCategory("fuel");
     };
 
   return (

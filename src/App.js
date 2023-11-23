@@ -4,13 +4,37 @@ import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Profile from "./pages/profile/Profile";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/header/Header';
 
 function App() {
   let initialState = localStorage.getItem("profileComplete");
   const [isProfileComplete, setIsProfileComplete] = useState(initialState?JSON.parse(initialState):false);
   const [expenses, setExpenses] = useState([]);
+
+  const fetchExpenses = async () => {
+    try{
+      let response = await fetch("https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses.json");
+      let result;
+      if(response.ok){
+        result = await response.json();
+        let arr = [];
+        for(let key in result){
+          arr.push(result[key]);
+        }
+        setExpenses(arr);
+      }else{
+        result = await response.json();
+        throw new Error(result.error);
+      }
+    }catch(err){  
+      console.log(err);
+    }
+  }
+  
+  useEffect(()=>{
+    fetchExpenses()
+  },[])
   
   return (
     <Router>
