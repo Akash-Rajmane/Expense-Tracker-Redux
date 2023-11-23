@@ -10,14 +10,14 @@ import Header from './components/header/Header';
 function App() {
   let initialState = localStorage.getItem("profileComplete");
   const [isProfileComplete, setIsProfileComplete] = useState(initialState?JSON.parse(initialState):false);
-
+  const [expenses, setExpenses] = useState([]);
   
   return (
     <Router>
       <Header isProfileComplete={isProfileComplete}/>
       <main className='main'>
         <Routes>
-          <Route path="/" element={<Home/>}/>
+          <Route path="/" element={<Home setExpenses={setExpenses} expenses={expenses} />}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/profile" element={<Profile 

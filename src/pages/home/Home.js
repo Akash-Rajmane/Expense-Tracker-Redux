@@ -1,11 +1,13 @@
 import React from 'react';
 import classes from "./Home.module.css";
+import AddExpense from '../../components/add-expense/AddExpense';
+import List from '../../components/list/List';
 
-
-const Home = () => {
+const Home = ({setExpenses,expenses}) => {
   return (
     <>
-     Home
+     <AddExpense setExpenses={setExpenses}/>
+     <List expenses={expenses}/>
     </>
   )
 }
