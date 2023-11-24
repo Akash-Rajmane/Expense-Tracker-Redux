@@ -1,35 +1,40 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import classes from "./EditExpense.module.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { editExpense } from '../../store/expenseSlice';
 
-const EditExpense = ({setExpenses,expenses}) => {
+const EditExpense = () => {
     const navigate = useNavigate();
     const key = useParams().key;
-    const [amount,setAmount] = useState("");
-    const [description,setDescription] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("fuel");
+    const expenses = useSelector(state=>state.expense.expenses);
+    const selectedExpense = expenses.find(expense => expense.key === key);
+    const [amount, setAmount] = useState(selectedExpense ? selectedExpense.amount : "");
+    const [description, setDescription] = useState(selectedExpense ? selectedExpense.description : "");
+    const [selectedCategory, setSelectedCategory] = useState(selectedExpense ? selectedExpense.category : "fuel");
+    const dispatch = useDispatch();
 
-    const fetchExpenseData = useCallback(async () => {
-        try{
-            let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses/${key}.json`);
-            let result;
-            if(response.ok){
-                result = await response.json();
-                setAmount(result.amount);
-                setDescription(result.description);
-                setSelectedCategory(result.category);
-            }else{
-                result = await response.json();
-                throw new Error(result.error);
-            }
-        }catch(err){
-            console.log(err);
-        }
-    },[key])
+    // const fetchExpenseData = useCallback(async () => {
+    //     try{
+    //         let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses/${key}.json`);
+    //         let result;
+    //         if(response.ok){
+    //             result = await response.json();
+    //             setAmount(result.amount);
+    //             setDescription(result.description);
+    //             setSelectedCategory(result.category);
+    //         }else{
+    //             result = await response.json();
+    //             throw new Error(result.error);
+    //         }
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // },[key])
 
-    useEffect(()=>{
-        fetchExpenseData();
-    },[fetchExpenseData])
+    // useEffect(()=>{
+    //     fetchExpenseData();
+    // },[fetchExpenseData])
 
     const amountChangeHandler = (e) => {
         setAmount(e.target.value);
@@ -50,7 +55,7 @@ const EditExpense = ({setExpenses,expenses}) => {
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        let newExpense =  {   
+        let updatedExpense =  {   
             amount: amount,
             description: description,
             category: selectedCategory
@@ -60,7 +65,7 @@ const EditExpense = ({setExpenses,expenses}) => {
             let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses/${key}.json`,
             {
                 method: "PATCH",
-                body: JSON.stringify(newExpense),
+                body: JSON.stringify(updatedExpense),
                 headers:{
                     "Content-Type":"application/json"
                 }
@@ -70,19 +75,8 @@ const EditExpense = ({setExpenses,expenses}) => {
             if(response.ok){
                 result = await response.json();
                 console.log(result);
-                let newExpenses = expenses.map(el=>{
-                    if(el.key===key){
-                        return {
-                            id: el.id,
-                            amount: amount,
-                            description: description,
-                            category: selectedCategory
-                        }
-                    }else{
-                        return el;
-                    }
-                })
-                setExpenses(newExpenses);
+
+                dispatch(editExpense({ key: key, ...updatedExpense }));
                 
                 setAmount("");
                 setDescription("");

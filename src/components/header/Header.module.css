@@ -12,6 +12,21 @@
     padding: 0 30px;
 }
 
+.navigation{
+    display: flex;
+    gap: 25px;
+}
+
+.inactive{
+    text-decoration: none;
+    color: #fff;
+}
+
+.active{
+    text-decoration: none;
+    color: yellow;
+}
+
 .link{
     margin-right: 60px;
     background-color: #fefed3;
@@ -27,6 +42,15 @@
 .logoutBtn{
     margin-right: 60px;
     background-color: #da1a1a;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    padding: 0.25rem 0.5rem;
+}
+
+.premiumBtn{
+    background-color: #165c0a;
     color: #fff;
     border-radius: 6px;
     border: none;

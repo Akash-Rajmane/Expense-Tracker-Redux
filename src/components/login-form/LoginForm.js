@@ -3,12 +3,15 @@ import classes from "./LoginForm.module.css";
 import showImage from "../../assets/show.png";
 import hideImage from "../../assets/hide.png";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {login} from "../../store/authSlice";
 
 const LoginForm = () => {
     const navigate = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
     const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch();
     
     const submitHandler = (e) => {
         e.preventDefault();
@@ -31,7 +34,13 @@ const LoginForm = () => {
               return res.json().then(data=>{
                 emailRef.current.value = "";
                 passwordRef.current.value = "";
-                localStorage.setItem("token",JSON.stringify(data.idToken));
+                //console.log(data);
+                let userDetalis = {
+                  token: data.idToken,
+                  email: data.email
+                }
+                localStorage.setItem("user",JSON.stringify(userDetalis));
+                dispatch(login(userDetalis))
                 navigate("/");
               })
             }else{

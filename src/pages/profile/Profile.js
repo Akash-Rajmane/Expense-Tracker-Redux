@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = ({setIsProfileComplete,isProfileComplete}) => {  
     const navigate = useNavigate();
-    const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [isEmailVerified, setIsEmailVerified] = useState(true);
     const nameRef = useRef();
     const photoRef = useRef();
 
@@ -13,7 +13,8 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
     }
 
     const fetchUserData = async () => {
-      let idToken = JSON.parse(localStorage.getItem("token"));
+      let user = JSON.parse(localStorage.getItem("user"));
+      let idToken = user.token;
       try{
         const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${process.env.REACT_APP_KEY}`,{
           method: "POST",
@@ -45,13 +46,14 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
       if(isProfileComplete){
         fetchUserData();
       }
-    },[isProfileComplete]);
+    },[isProfileComplete,]);
 
     const submitHandler = (e) => {
         e.preventDefault();
         let displayName = nameRef.current.value;
         let photoUrl = photoRef.current.value;
-        let token = JSON.parse(localStorage.getItem("token"));
+        let user = JSON.parse(localStorage.getItem("user"));
+        let token = user.token;
         fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_KEY}`,
         {
             method: "POST",
@@ -83,7 +85,8 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
     }
 
     const verifyEmailHandler = async () => {
-      let token = JSON.parse(localStorage.getItem("token"));
+      let user = JSON.parse(localStorage.getItem("user"));
+      let token = user.token;
       try{
         const response = fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.REACT_APP_KEY}`,{
           method: "POST",

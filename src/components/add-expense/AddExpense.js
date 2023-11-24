@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import classes from "./AddExpense.module.css";
+import { useDispatch } from 'react-redux';
+import { addExpense } from '../../store/expenseSlice';
 
-const AddExpense = ({setExpenses}) => {
+const AddExpense = () => {
+    const dispatch = useDispatch();
     const [amount,setAmount] = useState("");
     const [description,setDescription] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("fuel");
@@ -41,15 +44,8 @@ const AddExpense = ({setExpenses}) => {
             if(response.ok){
                 result = await response.json();
                 console.log(result);
-                setExpenses(expenses=>{
-                    return [
-                        ...expenses,
-                        {   
-                            key: result.name,
-                            ...newExpense
-                        }
-                    ]
-                });
+                
+                dispatch(addExpense({ key: result.name, ...newExpense }));
                 
                 setAmount("");
                 setDescription("");

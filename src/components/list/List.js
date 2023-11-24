@@ -1,9 +1,13 @@
 import React from 'react';
 import classes from "./List.module.css";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteExpense } from '../../store/expenseSlice';
 
-const List = ({expenses,setExpenses}) => {
+const List = () => {
+  const expenses = useSelector(state=>state.expense.expenses);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const deleteHandler = async (key) => {
     try{
@@ -16,8 +20,7 @@ const List = ({expenses,setExpenses}) => {
       })
 
       if (response.ok) {
-        let newExpenses = expenses.filter(el=>el.key!==key);
-        setExpenses(newExpenses);
+        dispatch(deleteExpense({ key }));
         console.log('Expense deleted successfully');
       } else {
         console.error('Failed to delete expense');
