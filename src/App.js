@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute";
 
 function App() {
   let initialState = localStorage.getItem("profileComplete");
+  console.log(initialState);
   const [isProfileComplete, setIsProfileComplete] = useState(initialState?JSON.parse(initialState):false);
   const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
   const dispatch = useDispatch();

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteExpense } from '../../store/expenseSlice';
 
 const List = () => {
+  const theme = useSelector(state=>state.theme.theme);
   const expenses = useSelector(state=>state.expense.expenses);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,11 +35,13 @@ const List = () => {
     navigate(`/edit/${key}`);
   }
 
+  console.log(expenses);
+
   return (
     <ul className={classes.list}>
         {expenses.map(el=>{
             return(
-                <li key={el.id} className={classes.item}>
+                <li key={el.id} className={`${theme==="dark"? classes.itemDark : classes.item}`}>
                     <span>{el.description}</span>
                     <span>Rs {el.amount}</span>
                     <span>category: {el.category}</span>

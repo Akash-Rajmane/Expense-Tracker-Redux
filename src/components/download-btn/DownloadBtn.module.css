@@ -1,0 +1,8 @@
+.downloadBtn{
+    color: #fff;
+    background-color: grey;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    padding: 0.25rem 0.5rem;
+}

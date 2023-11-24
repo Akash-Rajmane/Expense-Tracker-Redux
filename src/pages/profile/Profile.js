@@ -1,8 +1,10 @@
 import React, {useRef, useEffect, useState} from 'react';
 import classes from "./Profile.module.css";
 import { useNavigate } from 'react-router-dom';
+import {useSelector} from "react-redux";
 
 const Profile = ({setIsProfileComplete,isProfileComplete}) => {  
+    const theme = useSelector(state=>state.theme.theme);
     const navigate = useNavigate();
     const [isEmailVerified, setIsEmailVerified] = useState(true);
     const nameRef = useRef();
@@ -110,22 +112,22 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
 
   return (
     <>
-      <form className={classes.form}>
-          <h1>Update Profile</h1>
+      <form className={`${theme==="dark"? classes.formDark : classes.form }`} onSubmit={submitHandler}>
+          <h1 className={`${theme==="dark"? classes.formHeadingDark : classes.formHeading}`}>Update Profile</h1>
           <div className={classes.control}>
-            <label htmlFor='name'>Full Name</label>
-            <input type='text' id='name' required ref={nameRef}/>
+            <label htmlFor='name' className={`${theme==="dark"? classes.labelDark : classes.label}`}>Full Name</label>
+            <input type='text' id='name' required ref={nameRef} className={`${theme==="dark"? classes.inputDark : classes.input}`}/>
           </div>
           <div className={classes.control}>
-            <label htmlFor='photo'>Profile Photo URL</label>
-            <input type='text' id='photo' required ref={photoRef}/>
+            <label htmlFor='photo' className={`${theme==="dark"? classes.labelDark : classes.label}`}>Profile Photo URL</label>
+            <input type='text' id='photo' required ref={photoRef} className={`${theme==="dark"? classes.inputDark : classes.input}`}/>
           </div>
           <div className={classes.actions}>
-              <button type="submit" className={classes.updateBtn} onClick={submitHandler}>Update</button>
-              <button type="button" className={classes.cancelBtn} onClick={redirectHandler}>Cancel</button>
+              <button type="submit" className={`${theme==="dark"? classes.updateBtnDark : classes.updateBtn}`} onClick={submitHandler}>Update</button>
+              <button type="button" className={`${theme==="dark"? classes.cancelBtnDark : classes.cancelBtn}`} onClick={redirectHandler}>Cancel</button>
           </div>
       </form>
-      {!isEmailVerified && <button className={classes.verifyBtn} onClick={verifyEmailHandler}>
+      {!isEmailVerified && <button className={`${theme==="dark"? classes.verifyBtnDark : classes.verifyBtn}`} onClick={verifyEmailHandler}>
         Verify Email
       </button>}
     </>

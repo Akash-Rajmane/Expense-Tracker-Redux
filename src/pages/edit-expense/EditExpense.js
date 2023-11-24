@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editExpense } from '../../store/expenseSlice';
 
 const EditExpense = () => {
+    const theme = useSelector(state=>state.theme.theme);
     const navigate = useNavigate();
     const key = useParams().key;
     const expenses = useSelector(state=>state.expense.expenses);
@@ -13,28 +14,6 @@ const EditExpense = () => {
     const [description, setDescription] = useState(selectedExpense ? selectedExpense.description : "");
     const [selectedCategory, setSelectedCategory] = useState(selectedExpense ? selectedExpense.category : "fuel");
     const dispatch = useDispatch();
-
-    // const fetchExpenseData = useCallback(async () => {
-    //     try{
-    //         let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses/${key}.json`);
-    //         let result;
-    //         if(response.ok){
-    //             result = await response.json();
-    //             setAmount(result.amount);
-    //             setDescription(result.description);
-    //             setSelectedCategory(result.category);
-    //         }else{
-    //             result = await response.json();
-    //             throw new Error(result.error);
-    //         }
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // },[key])
-
-    // useEffect(()=>{
-    //     fetchExpenseData();
-    // },[fetchExpenseData])
 
     const amountChangeHandler = (e) => {
         setAmount(e.target.value);
@@ -93,10 +72,10 @@ const EditExpense = () => {
     };
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
-        <h1>Edit Expense</h1>
+    <form className={`${theme==="dark"? classes.formDark : classes.form }`} onSubmit={submitHandler}>
+        <h1 className={`${theme==="dark"? classes.formHeadingDark : classes.formHeading}`}>Edit Expense</h1>
         <div className={classes.control}>
-          <label htmlFor='amount'>Amount</label>
+          <label htmlFor='amount' className={`${theme==="dark"? classes.labelDark : classes.label}`}>Amount</label>
           <input 
             type='number' 
             id='amount' 
@@ -104,23 +83,25 @@ const EditExpense = () => {
             min={0}
             value={amount}
             onChange={amountChangeHandler}
+            className={`${theme==="dark"? classes.inputDark : classes.input}`}
             />
         </div>
         <div className={classes.control}>
-          <label htmlFor='description'>Description</label>
+          <label htmlFor='description'  className={`${theme==="dark"? classes.labelDark : classes.label}`}>Description</label>
           <input
             type='text'
             id='description'
             value={description}
             onChange={descriptionChangeHandler}
             required
+            className={`${theme==="dark"? classes.inputDark : classes.input}`}
           />
         </div>
         <div className={classes.control}>
-                <label htmlFor="category">Choose Category</label>
+                <label htmlFor="category"  className={`${theme==="dark"? classes.labelDark : classes.label}`}>Choose Category</label>
                 <select 
                     id="category" 
-                    className={classes.dropdown}
+                    className={`${theme==="dark"? classes.dropdownDark : classes.dropdown}`}
                     value={selectedCategory}
                     onChange={categoryChangeHandler}
                 >
@@ -132,8 +113,8 @@ const EditExpense = () => {
                 </select>
         </div>
         <div className={classes.actions}>
-          <button type="submit" className={classes.saveBtn}>Save Expense</button>
-          <button type='button' className={classes.cancelBtn} onClick={cancelHandler}>Cancel</button>
+          <button type="submit" className={`${theme==="dark"? classes.saveBtnDark : classes.saveBtn}`}>Save Expense</button>
+          <button type='button' className={`${theme==="dark"? classes.cancelBtnDark : classes.cancelBtn}`} onClick={cancelHandler}>Cancel</button>
         </div>
     </form>
   )

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import classes from "./AddExpense.module.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addExpense } from '../../store/expenseSlice';
 
 const AddExpense = () => {
+    const theme = useSelector(state=>state.theme.theme);
     const dispatch = useDispatch();
     const [amount,setAmount] = useState("");
     const [description,setDescription] = useState("");
@@ -61,10 +62,10 @@ const AddExpense = () => {
     };
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
-        <h1>Add Expense</h1>
+    <form className={`${theme==="dark"? classes.formDark : classes.form }`} onSubmit={submitHandler}>
+        <h1 className={`${theme==="dark"? classes.formHeadingDark : classes.formHeading}`}>Add Expense</h1>
         <div className={classes.control}>
-          <label htmlFor='amount'>Amount</label>
+          <label htmlFor='amount' className={`${theme==="dark"? classes.labelDark : classes.label}`}>Amount</label>
           <input 
             type='number' 
             id='amount' 
@@ -72,23 +73,25 @@ const AddExpense = () => {
             min={0}
             value={amount}
             onChange={amountChangeHandler}
+            className={`${theme==="dark"? classes.inputDark : classes.input}`}
             />
         </div>
         <div className={classes.control}>
-          <label htmlFor='description'>Description</label>
+          <label htmlFor='description' className={`${theme==="dark"? classes.labelDark : classes.label}`}>Description</label>
           <input
             type='text'
             id='description'
             value={description}
             onChange={descriptionChangeHandler}
             required
+            className={`${theme==="dark"? classes.inputDark : classes.input}`}
           />
         </div>
         <div className={classes.control}>
-                <label htmlFor="category">Choose Category</label>
+                <label htmlFor="category" className={`${theme==="dark"? classes.labelDark : classes.label}`}>Choose Category</label>
                 <select 
                     id="category" 
-                    className={classes.dropdown}
+                    className={`${theme==="dark"? classes.dropdownDark : classes.dropdown}`}
                     value={selectedCategory}
                     onChange={categoryChangeHandler}
                 >
@@ -100,7 +103,7 @@ const AddExpense = () => {
                 </select>
         </div>
         <div className={classes.actions}>
-          <button type="submit" >Add Expense</button>
+          <button type="submit" className={`${theme==="dark"? classes.btnDark : classes.btn}`}>Add Expense</button>
         </div>
     </form>
   )
