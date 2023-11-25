@@ -29,7 +29,7 @@ const expenseSlice = createSlice({
         },
 
         setExpenses: (state,action) => {
-            state.expenses = action.payload;
+            state.expenses = action.payload.expenses;
         }
     }
 });

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from "./List.module.css";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteExpense } from '../../store/expenseSlice';
+import { fetchExpenseData } from '../../store/expense-actions';
 
 const List = () => {
   const theme = useSelector(state=>state.theme.theme);
@@ -10,6 +11,12 @@ const List = () => {
   const expenses = useSelector(state=>state.expense.expenses);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchExpenseData(email));
+  }, [dispatch,email]);
+
+  console.log(expenses);
 
   const deleteHandler = async (key) => {
     try{
@@ -23,7 +30,6 @@ const List = () => {
 
       if (response.ok) {
         dispatch(deleteExpense({ key }));
-        console.log('Expense deleted successfully');
       } else {
         console.error('Failed to delete expense');
       }
@@ -35,8 +41,6 @@ const List = () => {
   const editHandler = (key) => {
     navigate(`/edit/${key}`);
   }
-
-  console.log(expenses);
 
   return (
     <ul className={classes.list}>

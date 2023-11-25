@@ -6,8 +6,8 @@ import {useSelector} from "react-redux";
 const Profile = ({setIsProfileComplete,isProfileComplete}) => {  
     const theme = useSelector(state=>state.theme.theme);
     const navigate = useNavigate();
-    let emailVerified = localStorage.getItem("emailVerified");
-    const [isEmailVerified, setIsEmailVerified] = useState(emailVerified?JSON.parse(emailVerified):false);
+    //let emailVerified = localStorage.getItem("emailVerified");
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
     const nameRef = useRef("");
     const photoRef = useRef("");
 
@@ -35,7 +35,7 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
           nameRef.current.value = result.users[0].displayName;
           photoRef.current.value = result.users[0].photoUrl;
           setIsEmailVerified(result.users[0].emailVerified);
-          localStorage.setItem("emailVerified",result.users[0].emailVerified);
+          // localStorage.setItem("emailVerified",result.users[0].emailVerified);
         }else{
           result = await response.json();
           throw new Error(result.error.message);
@@ -50,7 +50,7 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
       if(isProfileComplete){
         fetchUserData();
       }
-    },[isProfileComplete,]);
+    },[isProfileComplete]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -89,6 +89,10 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
     }
 
     const verifyEmailHandler = async () => {
+      if(isEmailVerified){
+        alert("Your email Already verified");
+        return;
+      }
       let user = JSON.parse(localStorage.getItem("user"));
       let token = user.token;
       try{
@@ -106,7 +110,6 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
         
         console.log(response);
         alert("Email is sent to your registered mail id");
-        navigate("/");
         
       }catch(err){
         console.log(err);
@@ -130,9 +133,9 @@ const Profile = ({setIsProfileComplete,isProfileComplete}) => {
               <button type="button" className={`${theme==="dark"? classes.cancelBtnDark : classes.cancelBtn}`} onClick={redirectHandler}>Cancel</button>
           </div>
       </form>
-      {!isEmailVerified && <button className={`${theme==="dark"? classes.verifyBtnDark : classes.verifyBtn}`} onClick={verifyEmailHandler}>
+      <button className={`${theme==="dark"? classes.verifyBtnDark : classes.verifyBtn}`} onClick={verifyEmailHandler}>
         Verify Email
-      </button>}
+      </button>
     </>
   )
 }
