@@ -6,13 +6,14 @@ import { deleteExpense } from '../../store/expenseSlice';
 
 const List = () => {
   const theme = useSelector(state=>state.theme.theme);
+  const email  = useSelector(state=>state.auth.email).replace("@","").replace(".","");
   const expenses = useSelector(state=>state.expense.expenses);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const deleteHandler = async (key) => {
     try{
-      let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses/${key}.json`,
+      let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses${email}/${key}.json`,
       {
         method: "DELETE",
         headers: {

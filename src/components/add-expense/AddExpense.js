@@ -5,6 +5,7 @@ import { addExpense } from '../../store/expenseSlice';
 
 const AddExpense = () => {
     const theme = useSelector(state=>state.theme.theme);
+    const email  = useSelector(state=>state.auth.email).replace("@","").replace(".","");
     const dispatch = useDispatch();
     const [amount,setAmount] = useState("");
     const [description,setDescription] = useState("");
@@ -31,9 +32,9 @@ const AddExpense = () => {
             description: description,
             category: selectedCategory
         }   
-    
+        
         try{
-            let response = await fetch("https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses.json",{
+            let response = await fetch(`https://expense-tracker-803d3-default-rtdb.firebaseio.com/expenses${email}.json`,{
                 method: "POST",
                 body: JSON.stringify(newExpense),
                 headers:{
