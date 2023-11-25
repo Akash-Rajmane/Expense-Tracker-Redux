@@ -1,13 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = {
   expenses: []
 };
+
 
 const expenseSlice = createSlice({
     name: "expense",
     initialState,
     reducers: {
+        setExpenses: (state,action) => {
+            state.expenses = action.payload.expenses;
+        },
+        
         addExpense: (state, action) => {
             state.expenses.push(action.payload);
         },
@@ -28,9 +34,7 @@ const expenseSlice = createSlice({
             state.expenses = filteredExpenses;
         },
 
-        setExpenses: (state,action) => {
-            state.expenses = action.payload.expenses;
-        }
+
     }
 });
 

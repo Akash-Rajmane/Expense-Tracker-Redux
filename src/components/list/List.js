@@ -16,7 +16,7 @@ const List = () => {
     dispatch(fetchExpenseData(email));
   }, [dispatch,email]);
 
-  console.log(expenses);
+ 
 
   const deleteHandler = async (key) => {
     try{
