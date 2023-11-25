@@ -5,7 +5,7 @@ import hideImage from "../../assets/hide.png";
 import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     const emailRef = useRef();
     const confirmEmailRef = useRef();
     const passwordRef = useRef();
