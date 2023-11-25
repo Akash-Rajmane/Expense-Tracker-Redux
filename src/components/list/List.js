@@ -14,7 +14,7 @@ const List = () => {
 
   useEffect(() => {
     dispatch(fetchExpenseData(email));
-  }, [dispatch,email]);
+  }, [dispatch,email,expenses]);
 
  
 
